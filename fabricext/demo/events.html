@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>fabric.ext Events Demo</title>
+    <script src="../scripts/jquery.js"></script>
+    <script src="../scripts/fabric.js"></script>
+    <script src="../scripts/fabric.ext.js"></script>
+</head>
+<body>
+    <div style="float:left;">
+        <button id="drawMode" style="margin-top:30px;">Drawing Mode</button>
+        <button id="controlMode" style="margin-top:30px;">Control Mode</button>
+        <canvas id="c" width="600" height="400"></canvas>
+    </div>
+    <textarea id="eventInspector" style="float:left; margin-left:10px; width: 300px; height:600px; overflow:scroll;">
+
+    </textarea>
+
+    <script>
+        $(document).ready(function () {
+            // Preparing
+            var canvas = new fabric.CanvasEx('c');
+            $('#controlMode').on('click', function () {
+                canvas.isDrawingMode = false;
+            });
+
+            $('#drawMode').on('click', function () {
+                canvas.isDrawingMode = true;
+            });
+
+            var rect = new fabric.Rect({
+                left: 100,
+                top: 100,
+                fill: 'red',
+                width: 300,
+                height: 300
+            });
+
+            canvas.add(rect);
+
+            // Events binding demo.
+            rect.on('object:dblclick', function (options) {
+                writeToEventInspector('object:dblclick');
+            });
+
+            canvas.on('mouse:dblclick', function (options) {
+                writeToEventInspector('mouse:dblclick');
+            });
+        });
+
+        var writeToEventInspector = function (text) {
+            var existingText = $('#eventInspector').text();
+            var newText = existingText + '\r\n' + text;
+            $('#eventInspector').text(newText);
+        }
+    </script>
+</body>
+</html>
