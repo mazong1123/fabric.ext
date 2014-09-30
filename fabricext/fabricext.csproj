@@ -59,7 +59,7 @@
   <ItemGroup>
     <Content Include="demo\events.html" />
     <Content Include="index.html" />
-    <Content Include="scripts\fabric.ext.js" />
+    <Content Include="scripts\fabric.canvasex.js" />
     <Content Include="scripts\fabric.js" />
     <Content Include="scripts\jquery.js" />
   </ItemGroup>
