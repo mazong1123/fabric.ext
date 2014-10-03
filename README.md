@@ -34,3 +34,32 @@ An extension of fabricjs. Intends to implement objects and events missed in fabr
   canvas.add(rect);
 </script>
 ```
+####Supported Events and Objects:
+#####Events
+######canvas:
+```javascript
+// Double click
+canvas.on('mouse:dblclick', function (options) {
+});
+
+// Mouse right button down
+canvas.on('mouse:down', function (options) {
+  if (options.e.which === 3) {
+    console.log('Canvas right mouse down.');
+  }
+});
+```
+######object:
+```javascript
+// Double click
+rect.on('object:dblclick', function (options) {
+});
+
+// Mouse right button down
+rect.on('mousedown', function (options) {
+  if (options.e.which === 3) {
+    console.log('Object right mouse down.');
+  }
+});
+
+```
