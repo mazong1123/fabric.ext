@@ -62,10 +62,15 @@
     <Content Include="scripts\fabric.canvasex.js" />
     <Content Include="scripts\fabric.js" />
     <Content Include="scripts\jquery.js" />
+    <Content Include="test\event.simulate.js" />
+    <Content Include="test\events.html" />
+    <Content Include="test\qunit.css" />
+    <Content Include="test\qunit.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

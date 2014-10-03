@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Events Test</title>
+    <link rel="stylesheet" href="qunit.css">
+    <script src="../scripts/jquery.js"></script>
+    <script src="event.simulate.js"></script>
+    <script src="../scripts/fabric.js"></script>
+    <script src="../scripts/fabric.canvasex.js"></script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <canvas id="c" width="600" height="400"></canvas>
+    <script src="qunit.js"></script>
+    <script>
+        QUnit.module("Events Test", {
+            setup: function () {
+                var canvas = new fabric.CanvasEx('c');
+                $('#qunit-fixture').data('canvas', canvas);
+            },
+            teardown: function () {
+                var canvas = $('#qunit-fixture').data('canvas');
+                canvas.off();
+                $('#qunit-fixture').data('canvas', canvas);
+            }
+        });
+
+        QUnit.test('canvas double click event test', function (assert) {
+            assert.expect(1);
+            var canvas = $('#qunit-fixture').data('canvas');
+            canvas.on('mouse:dblclick', function (options) {
+                assert.ok(true);
+            });
+
+            simulateEvent(canvas.upperCanvasEl, 'dblclick');
+        });
+
+        QUnit.test('canvas right mouse down event test', function (assert) {
+            assert.expect(1);
+            var canvas = $('#qunit-fixture').data('canvas');
+            canvas.on('mouse:down', function (options) {
+                var expected = 3;
+                var actual = options.e.which;
+                assert.strictEqual(actual, expected);
+            });
+
+            simulateEvent(canvas.upperCanvasEl, 'mousedown', {
+                button: 2
+            });
+        });
+    </script>
+</body>
+</html>
