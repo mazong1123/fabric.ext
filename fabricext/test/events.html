@@ -14,13 +14,15 @@
     <canvas id="c" width="600" height="400"></canvas>
     <script src="qunit.js"></script>
     <script>
-        QUnit.module("Events Test", {
+        QUnit.module("Canvas Events Test", {
             setup: function () {
                 var canvas = new fabric.CanvasEx('c');
                 $('#qunit-fixture').data('canvas', canvas);
             },
+
             teardown: function () {
                 var canvas = $('#qunit-fixture').data('canvas');
+                canvas.isDrawingMode = false;
                 canvas.off();
                 $('#qunit-fixture').data('canvas', canvas);
             }
@@ -37,7 +39,6 @@
         });
 
         QUnit.test('canvas right mouse down event test', function (assert) {
-            assert.expect(1);
             var canvas = $('#qunit-fixture').data('canvas');
             canvas.on('mouse:down', function (options) {
                 var expected = 3;
@@ -49,6 +50,108 @@
                 button: 2
             });
         });
+
+        QUnit.module("Canvas Object Events Test", {
+            setup: function () {
+                var canvas = new fabric.CanvasEx('c');
+
+                var rect = new fabric.Rect({
+                    left: 0,
+                    top: 0,
+                    fill: 'red',
+                    width: 300,
+                    height: 300
+                });
+
+                canvas.add(rect);
+                
+                $('#qunit-fixture').data('canvas', canvas);
+                $('#qunit-fixture').data('rect', rect);
+            },
+
+            teardown: function () {
+                var canvas = $('#qunit-fixture').data('canvas');
+                canvas.isDrawingMode = false;
+                canvas.off();
+                $('#qunit-fixture').data('canvas', canvas);
+
+                var rect = $('#qunit-fixture').data('rect');
+                rect.off();
+                $('#qunit-fixture').data('rect', rect);
+            }
+        });
+
+        QUnit.test('object double click event test', function (assert) {
+            assert.expect(1);
+            var canvas = $('#qunit-fixture').data('canvas');
+            var rect = $('#qunit-fixture').data('rect');
+            rect.on('object:dblclick', function (options) {
+                assert.ok(true);
+            });
+
+            var canvasOffset = $(canvas.upperCanvasEl).offset();
+
+            simulateEvent(canvas.upperCanvasEl, 'dblclick', {
+                pointerX: canvasOffset.left + 10,
+                pointerY: canvasOffset.top + 10
+            });
+        });
+
+        QUnit.test('object double click event in draw mode should not fire', function (assert) {
+            assert.expect(0);
+            var canvas = $('#qunit-fixture').data('canvas');
+            canvas.isDrawingMode = true;
+
+            var rect = $('#qunit-fixture').data('rect');
+            rect.on('object:dblclick', function (options) {
+                assert.ok(false);
+            });
+
+            var canvasOffset = $(canvas.upperCanvasEl).offset();
+
+            simulateEvent(canvas.upperCanvasEl, 'dblclick', {
+                pointerX: canvasOffset.left + 10,
+                pointerY: canvasOffset.top + 10
+            });
+        });
+
+        QUnit.test('object right mouse down event test', function (assert) {
+            var canvas = $('#qunit-fixture').data('canvas');
+            var rect = $('#qunit-fixture').data('rect');
+            rect.on('mousedown', function (options) {
+                var expected = 3;
+                var actual = options.e.which;
+                assert.strictEqual(actual, expected);
+            });
+
+            var canvasOffset = $(canvas.upperCanvasEl).offset();
+
+            simulateEvent(canvas.upperCanvasEl, 'mousedown', {
+                pointerX: canvasOffset.left + 10,
+                pointerY: canvasOffset.top + 10,
+                button: 2
+            });
+        });
+
+        QUnit.test('object right mouse down event in draw mode should not fire', function (assert) {
+            assert.expect(0);
+            var canvas = $('#qunit-fixture').data('canvas');
+            canvas.isDrawingMode = true;
+
+            var rect = $('#qunit-fixture').data('rect');
+            rect.on('mousedown', function (options) {
+                assert.ok(false);
+            });
+
+            var canvasOffset = $(canvas.upperCanvasEl).offset();
+
+            simulateEvent(canvas.upperCanvasEl, 'mousedown', {
+                pointerX: canvasOffset.left + 10,
+                pointerY: canvasOffset.top + 10,
+                button: 2
+            });
+        });
+
     </script>
 </body>
 </html>
