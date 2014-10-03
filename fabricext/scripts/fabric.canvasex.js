@@ -76,6 +76,20 @@
                 }, self.tapholdThreshold);
 
                 self.touchStartTimer = touchStartTimer;
+
+                return;
+            }
+
+            // Add right click support
+            if (e.which === 3) {
+                var target = this.findTarget(e);
+                self.fire('mouse:down', { target: target, e: e });
+                if (target && !self.isDrawingMode) {
+                    // To unify the behavior, the object's mouse down event does not fire on drawing mode.
+                    target.fire('mousedown', {
+                        e: e
+                    });
+                }
             }
         },
 
@@ -108,6 +122,8 @@
                 } else {
                     self.lastTouch = now;
                 }
+
+                return;
             }
         },
 

@@ -39,12 +39,29 @@
             canvas.add(rect);
 
             // Events binding demo.
+
+            // Double click demo.
             rect.on('object:dblclick', function (options) {
                 writeToEventInspector('object:dblclick');
             });
 
             canvas.on('mouse:dblclick', function (options) {
                 writeToEventInspector('mouse:dblclick');
+            });
+
+            // Right click demo.
+            rect.on('mousedown', function (options) {
+                writeToEventInspector('mousedown');
+                if (options.e.which === 3) {
+                    console.log('Object right mouse down.');
+                }
+            });
+
+            canvas.on('mouse:down', function (options) {
+                writeToEventInspector('mousedown');
+                if (options.e.which === 3) {
+                    console.log('Canvas right mouse down.');
+                }
             });
         });
 
