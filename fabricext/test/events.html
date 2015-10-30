@@ -152,6 +152,47 @@
             });
         });
 
+        QUnit.test('group objects right mouse down event', function (assert) {
+            var canvas = $('#qunit-fixture').data('canvas');
+
+            var rect1 = new fabric.Rect({
+                left: 0,
+                top: 0,
+                fill: 'blue',
+                width: 50,
+                height: 50
+            });
+
+            var rect2 = new fabric.Rect({
+                left: 51,
+                top: 51,
+                fill: 'red',
+                width: 50,
+                height: 50
+            });
+
+            rect2.on('mousedown', function (options) {
+                var expected = 3;
+                var actual = options.e.which;
+                assert.strictEqual(actual, expected);
+            });
+
+            var group = new fabric.Group([rect1, rect2], {
+                left: 0,
+                top: 0
+            });
+
+            canvas.add(group);
+
+            var canvasOffset = $(canvas.upperCanvasEl).offset();
+
+            simulateEvent(canvas.upperCanvasEl, 'mousedown', {
+                pointerX: canvasOffset.left + 10,
+                pointerY: canvasOffset.top + 10,
+                button: 2
+            });
+        });
+
     </script>
 </body>
 </html>

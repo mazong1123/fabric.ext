@@ -1,13 +1,9 @@
-﻿ /////////////////////////////////////////////////////
-// fabric.canvasex.js
-//
-// Author: Jim Ma (https://github.com/mazong1123)
-//
-// Contact: mazong1123@gmail.com
-//
-// License: MIT
-//
-/////////////////////////////////////////////////////
+﻿/**
+ * fabric.canvasex.js
+ * @author Jim Ma (https://github.com/mazong1123)
+ * Contact: mazong1123@gmail.com
+ * License: MIT
+ */
 (function () {
     'use strict';
 
@@ -82,7 +78,9 @@
 
             // Add right click support
             if (e.which === 3) {
-                var target = this.findTarget(e);
+                // Skip group to find the real object.
+                var target = self.findRealTarget(e);
+
                 self.fire('mouse:down', { target: target, e: e });
                 if (target && !self.isDrawingMode) {
                     // To unify the behavior, the object's mouse down event does not fire on drawing mode.
@@ -166,6 +164,27 @@
             self.callSuper('_initEventListeners');
 
             addListener(self.upperCanvasEl, 'dblclick', self._onDoubleClick);
+        },
+
+        findRealTarget: function (e) {
+            var self = this;
+
+            // Skip group to find the real object.
+            var target = self.findTarget(e, true);
+            if (target !== undefined && target._objects !== undefined) {
+                var pointer = self.getPointer(e, true);
+                var objects = target._objects;
+                var i = objects.length;
+                while (i--) {
+                    if (self._checkTarget(e, objects[i], pointer)) {
+                        target = objects[i];
+
+                        break;
+                    }
+                }
+            }
+
+            return target;
         },
 
         removeListeners: function () {
