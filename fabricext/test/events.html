@@ -165,20 +165,28 @@
             });
 
             var rect2 = new fabric.Rect({
-                left: 51,
-                top: 51,
+                left: 251,
+                top: 251,
                 fill: 'red',
                 width: 50,
                 height: 50
             });
 
-            rect2.on('mousedown', function (options) {
+            var rect3 = new fabric.Rect({
+                left: 102,
+                top: 102,
+                fill: 'green',
+                width: 50,
+                height: 50
+            });
+
+            rect1.on('mousedown', function (options) {
                 var expected = 3;
                 var actual = options.e.which;
                 assert.strictEqual(actual, expected);
             });
 
-            var group = new fabric.Group([rect1, rect2], {
+            var group = new fabric.Group([rect1, rect2, rect3], {
                 left: 0,
                 top: 0
             });

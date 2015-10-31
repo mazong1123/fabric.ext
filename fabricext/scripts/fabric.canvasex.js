@@ -166,6 +166,58 @@
             addListener(self.upperCanvasEl, 'dblclick', self._onDoubleClick);
         },
 
+        _checkTargetForGroupObject: function (obj, pointer) {
+            if (obj &&
+                obj.visible &&
+                obj.evented &&
+                this._containsPointForGroupObject(pointer, obj)) {
+                if ((this.perPixelTargetFind || obj.perPixelTargetFind) && !obj.isEditing) {
+                    var isTransparent = this.isTargetTransparent(obj, pointer.x, pointer.y);
+                    if (!isTransparent) {
+                        return true;
+                    }
+                }
+                else {
+                    return true;
+                }
+            }
+        },
+
+        _containsPointForGroupObject: function (pointer, target) {
+            var xy = this._normalizePointer(target, pointer);
+
+            // http://www.geog.ubc.ca/courses/klink/gis.notes/ncgia/u32.html
+            // http://idav.ucdavis.edu/~okreylos/TAship/Spring2000/PointInPolygon.html
+            return (target.containsPoint(xy) || target._findTargetCorner(pointer));
+        },
+
+        _adjustPointerAccordingToGroupObjects: function (originalPointer, groupObjects) {
+            var objectLength = groupObjects.length;
+            if (objectLength <= 0) {
+                return originalPointer;
+            }
+
+            var minLeft = 99999;
+            var minTop = 99999;
+
+            var i;
+            for (i = 0; i < objectLength; i++) {
+                var obj = groupObjects[i];
+                if (minLeft > obj.left) {
+                    minLeft = obj.left;
+                }
+
+                if (minTop > obj.top) {
+                    minTop = obj.top;
+                }
+            }
+
+            originalPointer.x += minLeft;
+            originalPointer.y += minTop;
+
+            return originalPointer;
+        },
+
         findRealTarget: function (e) {
             var self = this;
             var target;
@@ -178,9 +230,10 @@
                 if (target !== undefined && target._objects !== undefined) {
                     var pointer = self.getPointer(e, true);
                     var objects = target._objects;
+                    pointer = self._adjustPointerAccordingToGroupObjects(pointer, objects);
                     var i = objects.length;
                     while (i--) {
-                        if (self._checkTarget(e, objects[i], pointer)) {
+                        if (self._checkTargetForGroupObject(objects[i], pointer)) {
                             target = objects[i];
 
                             break;
