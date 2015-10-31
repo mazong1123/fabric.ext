@@ -63,3 +63,5 @@ rect.on('mousedown', function (options) {
 });
 
 ```
+####Event for objects inside a group
+By default, any object inside a group will not recieve any event individually. Set canvas.fireEventForObjectInsideGroup to 'true' if you want group objects recieve events individually.
