@@ -25,7 +25,7 @@
         _onDoubleClick: function (e) {
             var self = this;
 
-            var target = self.findTarget(e);
+            var target = self.findRealTarget(e);
             self.fire('mouse:dblclick', {
                 target: target,
                 e: e
@@ -42,7 +42,7 @@
         _onTapHold: function (e) {
             var self = this;
 
-            var target = self.findTarget(e);
+            var target = self.findRealTarget(e);
             self.fire('touch:taphold', {
                 target: target,
                 e: e
@@ -128,7 +128,7 @@
         _onDoubleTap: function (e) {
             var self = this;
 
-            var target = self.findTarget(e);
+            var target = self.findRealTarget(e);
             self.fire('touch:doubletap', {
                 target: target,
                 e: e
@@ -145,7 +145,7 @@
         _onLongTapEnd: function (e) {
             var self = this;
 
-            var target = self.findTarget(e);
+            var target = self.findRealTarget(e);
             self.fire('touch:longtapend', {
                 target: target,
                 e: e
@@ -168,18 +168,23 @@
 
         findRealTarget: function (e) {
             var self = this;
+            var target;
+            if (!self.fireEventForObjectInsideGroup) {
+                target = self.findTarget(e);
+            }
+            else {
+                // Skip group to find the real object.
+                var target = self.findTarget(e, true);
+                if (target !== undefined && target._objects !== undefined) {
+                    var pointer = self.getPointer(e, true);
+                    var objects = target._objects;
+                    var i = objects.length;
+                    while (i--) {
+                        if (self._checkTarget(e, objects[i], pointer)) {
+                            target = objects[i];
 
-            // Skip group to find the real object.
-            var target = self.findTarget(e, true);
-            if (target !== undefined && target._objects !== undefined) {
-                var pointer = self.getPointer(e, true);
-                var objects = target._objects;
-                var i = objects.length;
-                while (i--) {
-                    if (self._checkTarget(e, objects[i], pointer)) {
-                        target = objects[i];
-
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -192,6 +197,8 @@
             self.callSuper('removeListeners');
 
             removeListener(self.upperCanvasEl, 'dblclick', self._onDoubleClick);
-        }
+        },
+
+        fireEventForObjectInsideGroup: false
     });
 })();

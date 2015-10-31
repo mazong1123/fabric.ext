@@ -154,6 +154,7 @@
 
         QUnit.test('group objects right mouse down event', function (assert) {
             var canvas = $('#qunit-fixture').data('canvas');
+            canvas.fireEventForObjectInsideGroup = true;
 
             var rect1 = new fabric.Rect({
                 left: 0,

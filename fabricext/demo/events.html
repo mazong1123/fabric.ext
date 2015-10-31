@@ -10,6 +10,7 @@
     <div style="float:left;">
         <button id="drawMode" style="margin-top:30px;">Drawing Mode</button>
         <button id="controlMode" style="margin-top:30px;">Control Mode</button>
+        <button id="fireEventForObjectInsideGroup" style="margin-top:30px;">Fire event for object inside group</button>
         <canvas id="c" width="600" height="400"></canvas>
     </div>
     <textarea id="eventInspector" style="float:left; margin-left:10px; width: 300px; height:600px; overflow:scroll;">
@@ -26,6 +27,11 @@
 
             $('#drawMode').on('click', function () {
                 canvas.isDrawingMode = true;
+            });
+
+            $('#fireEventForObjectInsideGroup').on('click', function () {
+                // Object inside a group will recieve event as well.
+                canvas.fireEventForObjectInsideGroup = true;
             });
 
             var rect = new fabric.Rect({
