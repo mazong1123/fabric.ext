@@ -201,7 +201,8 @@
             return (target.containsPoint(xy) || target._findTargetCorner(pointer));
         },
 
-        _adjustPointerAccordingToGroupObjects: function (originalPointer, groupObjects) {
+        _adjustPointerAccordingToGroupObjects: function (originalPointer, group) {
+            var groupObjects = group._objects;
             var objectLength = groupObjects.length;
             if (objectLength <= 0) {
                 return originalPointer;
@@ -222,8 +223,8 @@
                 }
             }
 
-            originalPointer.x += minLeft;
-            originalPointer.y += minTop;
+            originalPointer.x += minLeft - group.left;
+            originalPointer.y += minTop - group.top;
 
             return originalPointer;
         },
@@ -240,7 +241,7 @@
                 if (target !== undefined && target._objects !== undefined) {
                     var pointer = self.getPointer(e, true);
                     var objects = target._objects;
-                    pointer = self._adjustPointerAccordingToGroupObjects(pointer, objects);
+                    pointer = self._adjustPointerAccordingToGroupObjects(pointer, target);
                     var i = objects.length;
                     while (i--) {
                         if (self._checkTargetForGroupObject(objects[i], pointer)) {

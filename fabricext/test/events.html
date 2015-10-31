@@ -187,8 +187,8 @@
             });
 
             var group = new fabric.Group([rect1, rect2, rect3], {
-                left: 0,
-                top: 0
+                left: 120,
+                top: 110
             });
 
             canvas.add(group);
@@ -196,8 +196,8 @@
             var canvasOffset = $(canvas.upperCanvasEl).offset();
 
             simulateEvent(canvas.upperCanvasEl, 'mousedown', {
-                pointerX: canvasOffset.left + 10,
-                pointerY: canvasOffset.top + 10,
+                pointerX: canvasOffset.left + 130,
+                pointerY: canvasOffset.top + 120,
                 button: 2
             });
         });
