@@ -67,14 +67,14 @@
 
             // Right click demo.
             rect.on('mousedown', function (options) {
-                writeToEventInspector('mousedown');
+                writeToEventInspector('rect mousedown');
                 if (options.e.which === 3) {
                     console.log('Object right mouse down.');
                 }
             });
 
             canvas.on('mouse:down', function (options) {
-                writeToEventInspector('mousedown');
+                writeToEventInspector('canvas mousedown');
                 if (options.e.which === 3) {
                     console.log('Canvas right mouse down.');
                 }

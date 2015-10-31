@@ -76,12 +76,22 @@
                 return;
             }
 
-            // Add right click support
-            if (e.which === 3) {
+            var isTargetGroup = false;
+            var target = self.findTarget(e);
+            if (target !== undefined && target._objects !== undefined) {
+                isTargetGroup = true;
+            }
+
+            // Add right click support and group object click support.
+            if (e.which === 3 || (isTargetGroup && self.fireEventForObjectInsideGroup)) {
                 // Skip group to find the real object.
                 var target = self.findRealTarget(e);
 
-                self.fire('mouse:down', { target: target, e: e });
+                if (!isTargetGroup || !self.fireEventForObjectInsideGroup) {
+                    // Canvas event only for right click. For group object, the super method already fired a canvas event.
+                    self.fire('mouse:down', { target: target, e: e });
+                }
+                
                 if (target && !self.isDrawingMode) {
                     // To unify the behavior, the object's mouse down event does not fire on drawing mode.
                     target.fire('mousedown', {
