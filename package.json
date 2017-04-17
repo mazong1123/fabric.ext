@@ -1,0 +1,23 @@
+{
+  "name": "fabric.ext",
+  "version": "1.0.0",
+  "description": "An extension of fabricjs. Intends to implement objects and events missed in fabricjs.",
+  "main": "fabricext/scripts/fabric.canvasex.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoganBarnett/fabric.ext.git"
+  },
+  "keywords": [
+    "fabric",
+    "canvas"
+  ],
+  "author": "Jim Ma (https://github.com/mazong1123)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LoganBarnett/fabric.ext/issues"
+  },
+  "homepage": "https://github.com/LoganBarnett/fabric.ext#readme"
+}
