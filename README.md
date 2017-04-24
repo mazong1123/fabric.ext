@@ -3,15 +3,15 @@ fabric.ext
 
 An extension of fabricjs. Intends to implement objects and events missed in fabricjs.
 
-###How to use
+### How to use
 
-####Reference the fabric.canvasex.js in your html:
+#### Reference the fabric.canvasex.js in your html:
 ```html
 <script src="scripts/fabric.canvasex.js"></script>
 ```
 
-####Create a canvasex object and use it:
-#####Events
+#### Create a canvasex object and use it:
+##### Events
 ```javascript
 <script>
   var canvas = new fabric.CanvasEx('c');
@@ -34,9 +34,9 @@ An extension of fabricjs. Intends to implement objects and events missed in fabr
   canvas.add(rect);
 </script>
 ```
-####Supported Events and Objects:
-#####Events
-######canvas:
+#### Supported Events and Objects:
+##### Events
+###### canvas:
 ```javascript
 // Double click
 canvas.on('mouse:dblclick', function (options) {
@@ -49,7 +49,7 @@ canvas.on('mouse:down', function (options) {
   }
 });
 ```
-######object:
+###### object:
 ```javascript
 // Double click
 rect.on('object:dblclick', function (options) {
@@ -63,7 +63,7 @@ rect.on('mousedown', function (options) {
 });
 
 ```
-####Event for objects inside a group
+#### Event for objects inside a group
 By default, any object inside a group will not recieve any event individually. Add below line of code if you want group objects recieve events individually.
 ```javascript
 canvas.fireEventForObjectInsideGroup = true;
